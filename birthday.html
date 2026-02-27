@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Birthday Surprise 🎂</title>
+
+<style>
+body {
+    margin: 0;
+    background: linear-gradient(to top right, #ffd6ec, #c8f7ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    overflow: hidden;
+}
+
+.container {
+    position: relative;
+}
+
+.cake {
+    font-size: 230px;
+    position: relative;
+    z-index: 1;
+}
+
+.flame {
+    font-size: 60px;
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    transition: opacity 1s;
+}
+
+#countdown {
+    font-size: 70px;
+    color: #ff4da6;
+    margin-bottom: 20px;
+}
+
+.popup {
+    position: fixed;
+    background: white;
+    padding: 20px 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    font-size: 22px;
+    z-index: 10;
+}
+.confetti {
+    position: fixed;
+    top: -10px;
+    width: 10px;
+    height: 10px;
+    background: red;
+    animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="popup" id="popup">
+🎂 Blow the candles in 3 seconds!
+</div>
+
+<div class="container">
+    <div id="countdown"></div>
+    <div class="flame" id="flame">🔥🔥🔥</div>
+    <div class="cake">🎂</div>
+</div>
+
+<script>
+let popup = document.getElementById("popup");
+let countdownEl = document.getElementById("countdown");
+let flame = document.getElementById("flame");
+
+setTimeout(() => {
+    popup.style.display = "none";
+    startCountdown();
+}, 2000);
+
+function startCountdown() {
+    let count = 3;
+    countdownEl.innerText = count;
+
+    let timer = setInterval(() => {
+        count--;
+        if (count > 0) {
+            countdownEl.innerText = count;
+        } else {
+            clearInterval(timer);
+            countdownEl.innerText = "Make a Wish 💫";
+            flame.style.opacity = 0;
+            startConfetti();
+
+            setTimeout(() => {
+                window.location.href = "wishes.html";
+            }, 4000);
+        }
+    }, 1000);
+}
+
+function startConfetti() {
+    for (let i = 0; i < 100; i++) {
+        let conf = document.createElement("div");
+        conf.classList.add("confetti");
+        conf.style.left = Math.random() * 100 + "vw";
+        conf.style.backgroundColor =
+            ["#ff4da6","#ffd700","#00e6e6","#ff8c00","#00ff99"][Math.floor(Math.random()*5)];
+        conf.style.animationDuration = (2 + Math.random()*2) + "s";
+        document.body.appendChild(conf);
+    }
+}
+</script>
+
+</body>
+</html>
